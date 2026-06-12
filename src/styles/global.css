@@ -748,6 +748,9 @@ section {
 .contact-line {
   display: block;
   overflow: hidden;
+  /* Chars are split into inline-blocks for the reveal animation — without
+     nowrap a tight viewport wraps the last letter to its own line. */
+  white-space: nowrap;
 }
 
 .contact-line .char-mask {
@@ -1648,6 +1651,14 @@ html.menu-open {
   .contact-grid {
     grid-template-columns: 1fr;
     gap: 4rem;
+  }
+
+  .contact-headline {
+    font-size: clamp(2.2rem, 10vw, 5rem);
+  }
+
+  .contact-line--accent {
+    margin-left: 0;
   }
 
   .form-row {

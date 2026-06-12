@@ -70,10 +70,15 @@ void main(){
   col = mix(col, deep, smoothstep(-0.2, 0.9, n) * 0.90 * uIntensity);
   col = mix(col, neon, smoothstep(0.40, 1.15, n) * 0.40 * uIntensity);
   col = mix(col, soft, smoothstep(0.55, 1.0, q.y) * 0.24 * uIntensity);
-  col += neon * exp(-md * md * 5.0) * 0.07 * uMouseForce;
 
   float vig = smoothstep(1.5, 0.35, length(uv - 0.5) * 1.7);
   col = mix(base, col, vig);
+
+  // Strong local glow under the pointer/finger — applied after the vignette
+  // so it stays bright anywhere on screen.
+  float glow = exp(-md * md * 3.0) * uMouseForce;
+  col *= 1.0 + glow * 1.2;
+  col += neon * glow * 0.30;
 
   float g = fract(sin(dot(uv * 731.7 + uTime, vec2(12.9898, 78.233))) * 43758.5453);
   col += (g - 0.5) * 0.022;
@@ -127,7 +132,9 @@ export default function FluidBackground() {
       mouse.ty = 1 - e.clientY / window.innerHeight
       mouse.force = 1
     }
+    // pointerdown covers touch taps; pointermove covers mouse + touch drags.
     window.addEventListener('pointermove', onMove, { passive: true })
+    window.addEventListener('pointerdown', onMove, { passive: true })
 
     const onResize = () => {
       renderer.setSize(window.innerWidth, window.innerHeight)
@@ -180,6 +187,7 @@ export default function FluidBackground() {
     return () => {
       cancelAnimationFrame(raf)
       window.removeEventListener('pointermove', onMove)
+      window.removeEventListener('pointerdown', onMove)
       window.removeEventListener('resize', onResize)
       quad.geometry.dispose()
       quad.material.dispose()

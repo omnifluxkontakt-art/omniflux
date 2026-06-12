@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
-import { gsap, prefersReducedMotion, isTouch, getVelocity } from '../lib/motion'
+import { gsap, prefersReducedMotion, isTouch } from '../lib/motion'
 import { CASE_STUDIES } from '../data/content'
 
 export default function Work() {
@@ -45,12 +45,12 @@ export default function Work() {
 
     const tick = (_, deltaMs) => {
       const frames = deltaMs * 0.06
-      // :hover is queried per-frame — enter/leave events go stale when the
-      // page scrolls under a stationary cursor and would freeze the carousel.
+      // Steady autoplay, fully decoupled from page scroll. :hover is queried
+      // per-frame — enter/leave events go stale when the page scrolls under
+      // a stationary cursor and would freeze the carousel.
       speed.target = drag.active || track.matches(':hover') ? 0 : 1
       speed.current += (speed.target - speed.current) * 0.05
-      const boost = Math.abs(getVelocity()) * 7
-      x -= (0.55 * speed.current + boost) * frames
+      x -= 0.7 * speed.current * frames
       const half = track.scrollWidth / 2
       if (half > 0) {
         if (-x >= half) x += half
@@ -60,23 +60,8 @@ export default function Work() {
     }
     gsap.ticker.add(tick)
 
-    // RGB-shift ghosts driven by scroll velocity.
-    const ghosts = track.querySelectorAll('.work-ghost')
-    const ghostTick = () => {
-      const v = getVelocity()
-      const a = Math.min(1, Math.abs(v) * 2.4)
-      const off = v * 14
-      ghosts.forEach((g) => {
-        const dir = g.classList.contains('work-ghost--r') ? 1 : -1
-        g.style.opacity = (a * 0.55).toFixed(3)
-        g.style.transform = `translateX(${(off * dir).toFixed(1)}px)`
-      })
-    }
-    gsap.ticker.add(ghostTick)
-
     return () => {
       gsap.ticker.remove(tick)
-      gsap.ticker.remove(ghostTick)
       track.removeEventListener('pointerdown', onDown)
       window.removeEventListener('pointermove', onMove)
       window.removeEventListener('pointerup', onUp)
@@ -117,8 +102,6 @@ export default function Work() {
                   >
                     <div className="work-media">
                       <img src={p.img} alt={copy > 0 ? '' : `${p.name} — ${p.client}`} loading={copy > 0 || i > 1 ? 'lazy' : 'eager'} draggable="false" />
-                      <img src={p.img} alt="" aria-hidden="true" className="work-ghost work-ghost--r" draggable="false" />
-                      <img src={p.img} alt="" aria-hidden="true" className="work-ghost work-ghost--b" draggable="false" />
                     </div>
                     <div className="work-meta">
                       <span className="work-index">{String(i + 1).padStart(2, '0')}</span>
