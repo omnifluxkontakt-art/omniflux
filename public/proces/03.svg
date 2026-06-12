@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 800">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0%" stop-color="#0a2230"/>
+      <stop offset="100%" stop-color="#0a0d0a"/>
+    </linearGradient>
+  </defs>
+  <style>
+    @keyframes typein { 0%, 10% { opacity: 0; } 25%, 100% { opacity: 1; } }
+    @keyframes caret { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
+    @keyframes lamp { 0%, 100% { opacity: 0.35; } 50% { opacity: 1; } }
+    @keyframes blink { 0%, 100% { opacity: 0.55; } 50% { opacity: 1; } }
+    @keyframes glow { 0%, 100% { stroke-opacity: 0.45; } 50% { stroke-opacity: 1; } }
+    .l1 { animation: typein 6s ease-out infinite; }
+    .l2 { animation: typein 6s ease-out infinite; animation-delay: 1.2s; }
+    .l3 { animation: typein 6s ease-out infinite; animation-delay: 2.4s; }
+    .caret { animation: caret 1s steps(1) infinite; }
+    .lamp { animation: lamp 2.4s ease-in-out infinite; }
+    .label { animation: blink 3.2s ease-in-out infinite; }
+    .num { animation: glow 4s ease-in-out infinite; }
+    @media (prefers-reduced-motion: reduce) { * { animation: none !important; } }
+  </style>
+  <rect width="600" height="800" fill="url(#bg)"/>
+  <text class="num" x="60" y="280" font-family="Arial, sans-serif" font-size="220" font-weight="bold" fill="none" stroke="#00e5ff" stroke-width="2">03</text>
+  <rect x="120" y="430" width="360" height="210" rx="10" fill="none" stroke="#68e3ff" stroke-opacity="0.45" stroke-width="2"/>
+  <circle class="lamp" cx="150" cy="408" r="6" fill="#00e5ff"/>
+  <circle cx="175" cy="408" r="6" fill="#0a3d4d"/>
+  <circle cx="200" cy="408" r="6" fill="#0a3d4d"/>
+  <g font-family="monospace" font-size="30">
+    <text class="l1" x="150" y="480" fill="#68e3ff">&lt;design /&gt;</text>
+    <text class="l2" x="150" y="540" fill="#ece9e2">&lt;kod /&gt;</text>
+    <text class="l3" x="150" y="600" fill="#00e5ff">&lt;deploy /&gt;</text>
+    <text class="caret" x="345" y="600" fill="#00e5ff">_</text>
+  </g>
+  <text class="label" x="60" y="730" font-family="monospace" font-size="24" fill="#68e3ff" letter-spacing="6">BEZ PODWYKONAWCÓW</text>
+</svg>

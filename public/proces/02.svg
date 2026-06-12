@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 800">
+  <defs>
+    <linearGradient id="bg" x1="1" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#081b24"/>
+      <stop offset="100%" stop-color="#0a0a0a"/>
+    </linearGradient>
+  </defs>
+  <style>
+    @keyframes draw { 0% { stroke-dashoffset: 620; } 55%, 100% { stroke-dashoffset: 0; } }
+    @keyframes pop { 0%, 20% { opacity: 0; transform: scale(0.3); } 35%, 100% { opacity: 1; transform: scale(1); } }
+    @keyframes blink { 0%, 100% { opacity: 0.55; } 50% { opacity: 1; } }
+    @keyframes glow { 0%, 100% { stroke-opacity: 0.45; } 50% { stroke-opacity: 1; } }
+    .linia { stroke-dasharray: 620; animation: draw 4.5s ease-in-out infinite; }
+    .p { animation: pop 4.5s ease-out infinite; }
+    .p1 { transform-origin: 120px 640px; animation-delay: 0.3s; }
+    .p2 { transform-origin: 250px 520px; animation-delay: 1s; }
+    .p3 { transform-origin: 340px 580px; animation-delay: 1.5s; }
+    .p4 { transform-origin: 480px 400px; animation-delay: 2.1s; }
+    .label { animation: blink 3.2s ease-in-out infinite; }
+    .num { animation: glow 4s ease-in-out infinite; }
+    @media (prefers-reduced-motion: reduce) { * { animation: none !important; } }
+  </style>
+  <rect width="600" height="800" fill="url(#bg)"/>
+  <text class="num" x="60" y="280" font-family="Arial, sans-serif" font-size="220" font-weight="bold" fill="none" stroke="#00e5ff" stroke-width="2">02</text>
+  <path class="linia" d="M120 640 L 250 520 L 340 580 L 480 400" stroke="#68e3ff" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <g fill="#00e5ff">
+    <circle class="p p1" cx="120" cy="640" r="9"/>
+    <circle class="p p2" cx="250" cy="520" r="9"/>
+    <circle class="p p3" cx="340" cy="580" r="9"/>
+    <circle class="p p4" cx="480" cy="400" r="12"/>
+  </g>
+  <text class="label" x="60" y="730" font-family="monospace" font-size="24" fill="#68e3ff" letter-spacing="6">PLAN — CEL — KPI</text>
+</svg>
