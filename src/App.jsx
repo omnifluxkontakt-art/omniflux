@@ -19,6 +19,7 @@ import Pricing from './pages/Pricing'
 import Blog from './pages/Blog'
 import BlogPost from './pages/BlogPost'
 import Privacy from './pages/Privacy'
+import Poradnik from './pages/Poradnik'
 
 // Three.js ships in its own chunk; the preloader covers the gap.
 const FluidBackground = lazy(() => import('./components/FluidBackground'))
@@ -116,6 +117,7 @@ export default function App() {
           <Route path="/blog" element={<Blog />} />
           <Route path="/blog/:slug" element={<BlogPost />} />
           <Route path="/polityka-prywatnosci" element={<Privacy />} />
+          <Route path="/poradnik-klienta" element={<Poradnik />} />
           <Route path="/:slug" element={<ServicePage />} />
         </Routes>
       </main>
