@@ -126,15 +126,25 @@ export default function FluidBackground() {
     )
     scene.add(quad)
 
-    const mouse = { x: 0.5, y: 0.5, tx: 0.5, ty: 0.5, force: 0 }
+    // `forceTarget` is the *intent* (set to 1 on interaction, relaxes to 0);
+    // `force` eases toward it each frame, so the glow ramps in/out smoothly
+    // instead of snapping to full strength.
+    const mouse = { x: 0.5, y: 0.5, tx: 0.5, ty: 0.5, force: 0, forceTarget: 0 }
     const onMove = (e) => {
       mouse.tx = e.clientX / window.innerWidth
       mouse.ty = 1 - e.clientY / window.innerHeight
-      mouse.force = 1
+      mouse.forceTarget = 1
+    }
+    const onDown = (e) => {
+      // Snap the glow's position to the tap point so it blooms there rather
+      // than streaking across from wherever it was.
+      mouse.tx = mouse.x = e.clientX / window.innerWidth
+      mouse.ty = mouse.y = 1 - e.clientY / window.innerHeight
+      mouse.forceTarget = 1
     }
     // pointerdown covers touch taps; pointermove covers mouse + touch drags.
     window.addEventListener('pointermove', onMove, { passive: true })
-    window.addEventListener('pointerdown', onMove, { passive: true })
+    window.addEventListener('pointerdown', onDown, { passive: true })
 
     const onResize = () => {
       renderer.setSize(window.innerWidth, window.innerHeight)
@@ -159,9 +169,12 @@ export default function FluidBackground() {
       if (frameInterval && now - last < frameInterval) return
       last = now
       uniforms.uTime.value = now / 1000
-      mouse.x += (mouse.tx - mouse.x) * 0.05
-      mouse.y += (mouse.ty - mouse.y) * 0.05
-      mouse.force += (0 - mouse.force) * 0.015
+      mouse.x += (mouse.tx - mouse.x) * 0.08
+      mouse.y += (mouse.ty - mouse.y) * 0.08
+      // Intent relaxes back to 0 slowly; the glow eases toward it faster, so
+      // it rises smoothly and fades out without a hard cutoff.
+      mouse.forceTarget += (0 - mouse.forceTarget) * 0.02
+      mouse.force += (mouse.forceTarget - mouse.force) * 0.09
       uniforms.uMouse.value.set(mouse.x, mouse.y)
       uniforms.uMouseForce.value = reduced ? 0 : mouse.force
 
@@ -187,7 +200,7 @@ export default function FluidBackground() {
     return () => {
       cancelAnimationFrame(raf)
       window.removeEventListener('pointermove', onMove)
-      window.removeEventListener('pointerdown', onMove)
+      window.removeEventListener('pointerdown', onDown)
       window.removeEventListener('resize', onResize)
       quad.geometry.dispose()
       quad.material.dispose()
