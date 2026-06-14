@@ -77,6 +77,8 @@ export const CASE_STUDIES = [
     tags: 'Strona WWW / Rezerwacje online',
     result: 'Pacjent umawia wizytę w 60 sekund',
     img: asset('/work/flanders.webp'),
+    w: 1903,
+    h: 1080,
     intro:
       'Fizjoterapia, osteopatia i podologia na Saskiej Kępie w Warszawie. Klinika z holistycznym podejściem do trudnych przypadków potrzebowała strony, która buduje zaufanie i skraca drogę pacjenta do gabinetu.',
     challenge:
@@ -96,6 +98,8 @@ export const CASE_STUDIES = [
     tags: 'E-commerce / Branding',
     result: 'Sklep, który buduje kult marki',
     img: asset('/work/obscuracult.webp'),
+    w: 1600,
+    h: 868,
     intro:
       'Marka biżuterii o mrocznej, wyrazistej estetyce. Sklep internetowy miał nie tylko sprzedawać, ale przede wszystkim budować świat marki, do którego klienci chcą wracać.',
     challenge:
@@ -115,6 +119,8 @@ export const CASE_STUDIES = [
     tags: 'Strona WWW / Menu online',
     result: 'Menu, które samo zaprasza do stolika',
     img: asset('/work/kumpir.webp'),
+    w: 1905,
+    h: 1060,
     intro:
       'Krakowski lokal z pieczonymi ziemniakami w roli głównej. Strona miała robić jedno: sprawiać, że po jej obejrzeniu jesteś głodny i wiesz, gdzie iść.',
     challenge:

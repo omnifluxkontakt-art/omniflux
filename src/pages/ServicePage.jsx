@@ -1,7 +1,8 @@
 import { useEffect } from 'react'
-import { Link, useParams, Navigate } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { SERVICES_PAGES, CONTACT } from '../data/content'
 import { setMeta } from '../lib/seo'
+import NotFound from './NotFound'
 
 export default function ServicePage() {
   const { slug } = useParams()
@@ -12,7 +13,7 @@ export default function ServicePage() {
     setMeta({ title: svc.title, description: svc.metaDescription, path: `/${svc.slug}` })
   }, [svc])
 
-  if (!svc) return <Navigate to="/" replace />
+  if (!svc) return <NotFound />
 
   const others = SERVICES_PAGES.filter((s) => s.slug !== slug)
 

@@ -38,6 +38,11 @@ export default function ContactForm() {
       <div className="form-done" role="status">
         <p className="form-done-head">Dziękujemy — brief doleciał.</p>
         <p>Odezwiemy się w ciągu 24 h z konkretną wyceną albo pytaniami doprecyzowującymi.</p>
+        <p className="form-done-fallback">
+          Gdybyśmy nie odpisali w ciągu 24 h, napisz wprost:{' '}
+          <a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a> lub zadzwoń{' '}
+          <a href={CONTACT.phoneHref}>{CONTACT.phone}</a>.
+        </p>
       </div>
     )
   }
@@ -51,7 +56,16 @@ export default function ContactForm() {
         </label>
         <label className="form-field">
           <span>E-mail lub telefon</span>
-          <input name="contact" type="text" required maxLength="120" placeholder="gdzie mamy odpisać?" />
+          <input
+            name="contact"
+            type="text"
+            required
+            maxLength="120"
+            inputMode="email"
+            pattern={"[^@\\s]+@[^@\\s]+\\.[^@\\s]+|\\+?[0-9 ()\\-]{9,}"}
+            title="Podaj poprawny e-mail lub numer telefonu (min. 9 cyfr)"
+            placeholder="gdzie mamy odpisać?"
+          />
         </label>
       </div>
       <div className="form-row">

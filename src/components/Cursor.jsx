@@ -12,8 +12,6 @@ export default function Cursor() {
     const dot = dotRef.current
     const ring = ringRef.current
 
-    document.documentElement.classList.add('has-custom-cursor')
-
     const dotX = gsap.quickTo(dot, 'x', { duration: 0.18, ease: 'power3.out' })
     const dotY = gsap.quickTo(dot, 'y', { duration: 0.18, ease: 'power3.out' })
     const ringX = gsap.quickTo(ring, 'x', { duration: 0.55, ease: 'power3.out' })
@@ -42,6 +40,10 @@ export default function Cursor() {
       }
     }
     window.addEventListener('pointerover', onOver, { passive: true })
+
+    // Hide the native cursor only AFTER the listeners are live, so a failure
+    // during setup can never strand the user with an invisible cursor.
+    document.documentElement.classList.add('has-custom-cursor')
 
     // Magnetic elements.
     const magnets = []

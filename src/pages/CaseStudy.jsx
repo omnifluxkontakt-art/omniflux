@@ -1,7 +1,8 @@
 import { useEffect } from 'react'
-import { Link, useParams, Navigate } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { CASE_STUDIES, CONTACT } from '../data/content'
 import { setMeta } from '../lib/seo'
+import NotFound from './NotFound'
 
 export default function CaseStudy() {
   const { slug } = useParams()
@@ -16,7 +17,7 @@ export default function CaseStudy() {
     })
   }, [cs])
 
-  if (!cs) return <Navigate to="/" replace />
+  if (!cs) return <NotFound />
 
   const others = CASE_STUDIES.filter((c) => c.slug !== slug)
 
@@ -34,7 +35,7 @@ export default function CaseStudy() {
       </header>
 
       <div className="case-media">
-        <img src={cs.img} alt={`${cs.name} — ${cs.client}`} draggable="false" />
+        <img src={cs.img} width={cs.w} height={cs.h} alt={`${cs.name} — ${cs.client}`} draggable="false" />
       </div>
 
       <div className="case-body">

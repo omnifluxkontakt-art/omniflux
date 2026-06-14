@@ -1,7 +1,7 @@
 :root {
   --bg: #0a0a0a;
   --ink: #ece9e2;
-  --ink-dim: #8a877f;
+  --ink-dim: #a6a299;
   --ink-faint: #4a4843;
   --accent: #00e5ff;
   --accent-soft: #68e3ff;
@@ -2117,3 +2117,41 @@ html.menu-open {
     animation-duration: 0.01ms !important;
   }
 }
+
+/* ---------- Accessibility: skip link & keyboard focus ---------- */
+
+.skip-link {
+  position: absolute;
+  top: 0;
+  left: -9999px;
+  z-index: 100000;
+  background: var(--accent);
+  color: #04211f;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.95rem;
+  padding: 0.8rem 1.2rem;
+  border-radius: 0 0 10px 0;
+}
+.skip-link:focus { left: 0; }
+
+/* The custom cursor hides the native pointer, so a visible focus ring is the
+   only affordance keyboard users get. Apply it to every interactive element. */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+main:focus { outline: none; }
+
+.form-done-fallback {
+  margin-top: 1rem;
+  font-size: 0.92rem;
+  color: var(--ink-dim);
+}
+.form-done-fallback a { color: var(--accent); }

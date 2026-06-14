@@ -20,6 +20,7 @@ import Blog from './pages/Blog'
 import BlogPost from './pages/BlogPost'
 import Privacy from './pages/Privacy'
 import Poradnik from './pages/Poradnik'
+import NotFound from './pages/NotFound'
 
 // Three.js ships in its own chunk; the preloader covers the gap.
 const FluidBackground = lazy(() => import('./components/FluidBackground'))
@@ -30,7 +31,17 @@ export default function App() {
   const location = useLocation()
   const isHome = location.pathname === '/'
   const [revealed, setRevealed] = useState(() => !isHome || seenPreloader())
+  const [bgReady, setBgReady] = useState(false)
   const firstRender = useRef(true)
+
+  // Defer the heavy WebGL background until the browser is idle, so its chunk
+  // download + shader compile don't compete with first paint or the hero text.
+  useEffect(() => {
+    const ric = window.requestIdleCallback || ((cb) => setTimeout(cb, 1200))
+    const cancel = window.cancelIdleCallback || clearTimeout
+    const id = ric(() => setBgReady(true))
+    return () => cancel(id)
+  }, [])
 
   useEffect(() => {
     const lenis = initSmoothScroll()
@@ -105,11 +116,14 @@ export default function App() {
 
   return (
     <>
-      <Suspense fallback={null}>
-        <FluidBackground />
-      </Suspense>
+      <a href="#main" className="skip-link">Przejdź do treści</a>
+      {bgReady && (
+        <Suspense fallback={null}>
+          <FluidBackground />
+        </Suspense>
+      )}
       <Nav revealed={revealed} />
-      <main>
+      <main id="main" tabIndex={-1}>
         <Routes>
           <Route path="/" element={<Home revealed={revealed} />} />
           <Route path="/realizacje/:slug" element={<CaseStudy />} />
@@ -119,6 +133,7 @@ export default function App() {
           <Route path="/polityka-prywatnosci" element={<Privacy />} />
           <Route path="/poradnik-klienta" element={<Poradnik />} />
           <Route path="/:slug" element={<ServicePage />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
       <Cursor />

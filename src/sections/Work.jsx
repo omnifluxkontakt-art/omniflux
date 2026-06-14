@@ -101,7 +101,7 @@ export default function Work() {
                     {...cursorAttrs}
                   >
                     <div className="work-media">
-                      <img src={p.img} alt={copy > 0 ? '' : `${p.name} — ${p.client}`} loading={copy > 0 || i > 1 ? 'lazy' : 'eager'} draggable="false" />
+                      <img src={p.img} width={p.w} height={p.h} alt={copy > 0 ? '' : `${p.name} — ${p.client}`} loading={copy > 0 || i > 1 ? 'lazy' : 'eager'} draggable="false" />
                     </div>
                     <div className="work-meta">
                       <span className="work-index">{String(i + 1).padStart(2, '0')}</span>
