@@ -130,21 +130,15 @@ export default function FluidBackground() {
     // `force` eases toward it each frame, so the glow ramps in/out smoothly
     // instead of snapping to full strength.
     const mouse = { x: 0.5, y: 0.5, tx: 0.5, ty: 0.5, force: 0, forceTarget: 0 }
+    // Desktop pointer only. Touch interaction was removed: phones have no hover,
+    // so taps looked abrupt — the background just plays its ambient animation.
     const onMove = (e) => {
+      if (e.pointerType === 'touch') return
       mouse.tx = e.clientX / window.innerWidth
       mouse.ty = 1 - e.clientY / window.innerHeight
       mouse.forceTarget = 1
     }
-    const onDown = (e) => {
-      // Snap the glow's position to the tap point so it blooms there rather
-      // than streaking across from wherever it was.
-      mouse.tx = mouse.x = e.clientX / window.innerWidth
-      mouse.ty = mouse.y = 1 - e.clientY / window.innerHeight
-      mouse.forceTarget = 1
-    }
-    // pointerdown covers touch taps; pointermove covers mouse + touch drags.
     window.addEventListener('pointermove', onMove, { passive: true })
-    window.addEventListener('pointerdown', onDown, { passive: true })
 
     const onResize = () => {
       renderer.setSize(window.innerWidth, window.innerHeight)
@@ -200,7 +194,6 @@ export default function FluidBackground() {
     return () => {
       cancelAnimationFrame(raf)
       window.removeEventListener('pointermove', onMove)
-      window.removeEventListener('pointerdown', onDown)
       window.removeEventListener('resize', onResize)
       quad.geometry.dispose()
       quad.material.dispose()
