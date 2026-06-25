@@ -82,6 +82,7 @@ export default function Nav({ revealed }) {
           <div className="menu-col menu-col--main">
             <span className="menu-head">MENU</span>
             <Link to="/" className="menu-link" data-cursor>Start</Link>
+            <Link to="/#portfolio" className="menu-link" data-cursor>Realizacje</Link>
             <Link to="/cennik" className="menu-link" data-cursor>Cennik</Link>
             <Link to="/blog" className="menu-link" data-cursor>Blog</Link>
             <Link to="/#contact" className="menu-link menu-link--accent" data-cursor>Kontakt</Link>

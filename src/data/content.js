@@ -12,6 +12,17 @@ export const CONTACT = {
   spots: '2 wolne miejsca',
 }
 
+// Portfolio — realne, wdrożone strony. Miniatury to zrzuty ekranu,
+// karty linkują do żywych witryn.
+export const PORTFOLIO = [
+  { name: 'HealthyMind', category: 'Psychoterapia', url: 'https://healthymind.com.pl/', img: asset('/work/healthymind.webp'), w: 1280, h: 800 },
+  { name: 'Alfa Fizjoterapia', category: 'Fizjoterapia uroginekologiczna', url: 'https://www.alfafizjoterapia.pl/', img: asset('/work/alfafizjoterapia.webp'), w: 1280, h: 800 },
+  { name: 'Pranie Wawa', category: 'Pranie tapicerki — usługi', url: 'https://pranie-wawa.pl/', img: asset('/work/pranie-wawa.webp'), w: 1280, h: 800 },
+  { name: 'ObscuraCult', category: 'Sklep internetowy / biżuteria', url: 'https://www.obscuracult.pl/', img: asset('/work/obscuracult.webp'), w: 1280, h: 800 },
+  { name: 'Flanders Medical', category: 'Fizjoterapia i osteopatia', url: 'https://holisticmotion.prezentacjastrony.pl/', img: asset('/work/holisticmotion.webp'), w: 1280, h: 800 },
+  { name: 'Krakowski Kumpir', category: 'Gastronomia', url: 'https://kumpirkrakowski.prezentacjastrony.pl/', img: asset('/work/kumpirkrakowski.webp'), w: 1280, h: 800 },
+]
+
 export const STATS = [
   { value: '24 h', label: 'maksymalny czas odpowiedzi' },
   { value: '100%', label: 'projektów bez podwykonawców' },

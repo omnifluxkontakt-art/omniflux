@@ -5,6 +5,7 @@ import { setMeta } from '../lib/seo'
 import Hero from '../sections/Hero'
 import Manifesto from '../sections/Manifesto'
 import Services from '../sections/Services'
+import Portfolio from '../sections/Portfolio'
 import Studio from '../sections/Studio'
 import Faq from '../components/Faq'
 import Contact from '../sections/Contact'
@@ -40,6 +41,7 @@ export default function Home({ revealed }) {
       <Hero revealed={revealed} />
       <Manifesto />
       <Services />
+      <Portfolio />
       <Studio />
       <Faq />
       <Contact />
