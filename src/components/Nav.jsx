@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { getLenis } from '../lib/motion'
-import { CONTACT, SERVICES_PAGES, CASE_STUDIES } from '../data/content'
+import { CONTACT, SERVICES_PAGES } from '../data/content'
 
 export default function Nav({ revealed }) {
   const [open, setOpen] = useState(false)
+  const headerRef = useRef(null)
   const location = useLocation()
 
   useEffect(() => {
@@ -16,6 +17,8 @@ export default function Nav({ revealed }) {
     if (open) {
       lenis?.stop()
       document.documentElement.classList.add('menu-open')
+      // While the menu is open the bar must stay visible (it holds ZAMKNIJ).
+      headerRef.current?.classList.remove('nav--hidden')
     } else {
       // Don't restart Lenis while the preloader still owns the scroll.
       if (revealed !== false) lenis?.start()
@@ -23,9 +26,36 @@ export default function Nav({ revealed }) {
     }
   }, [open, revealed])
 
+  // Hide the bar on scroll-down, reveal on scroll-up, and add a blurred
+  // backdrop once scrolled so it never overlaps text unseparated.
+  useEffect(() => {
+    const el = headerRef.current
+    if (!el) return
+    const apply = (y, dir) => {
+      el.classList.toggle('nav--scrolled', y > 40)
+      if (y < 90 || open) el.classList.remove('nav--hidden')
+      else if (dir > 0) el.classList.add('nav--hidden')
+      else if (dir < 0) el.classList.remove('nav--hidden')
+    }
+    const lenis = getLenis()
+    if (lenis) {
+      const onScroll = (e) => apply(e.scroll, e.direction || (e.velocity > 0 ? 1 : -1))
+      lenis.on('scroll', onScroll)
+      return () => lenis.off('scroll', onScroll)
+    }
+    let lastY = window.scrollY || 0
+    const onScroll = () => {
+      const y = window.scrollY
+      apply(y, y - lastY)
+      lastY = y
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [open])
+
   return (
     <>
-      <header className={`nav${revealed === false ? '' : ' is-visible'}`}>
+      <header ref={headerRef} className={`nav${revealed === false ? '' : ' is-visible'}`}>
         <Link to="/" className="nav-logo" data-magnetic="0.25" data-cursor>
           OMNIFLUX<sup>®</sup>
         </Link>
@@ -52,7 +82,6 @@ export default function Nav({ revealed }) {
           <div className="menu-col menu-col--main">
             <span className="menu-head">MENU</span>
             <Link to="/" className="menu-link" data-cursor>Start</Link>
-            <Link to="/#work" className="menu-link" data-cursor>Realizacje</Link>
             <Link to="/cennik" className="menu-link" data-cursor>Cennik</Link>
             <Link to="/blog" className="menu-link" data-cursor>Blog</Link>
             <Link to="/#contact" className="menu-link menu-link--accent" data-cursor>Kontakt</Link>
@@ -62,14 +91,6 @@ export default function Nav({ revealed }) {
             {SERVICES_PAGES.map((s) => (
               <Link key={s.slug} to={`/${s.slug}`} className="menu-sublink" data-cursor>
                 {s.name}
-              </Link>
-            ))}
-          </div>
-          <div className="menu-col">
-            <span className="menu-head">CASE STUDIES</span>
-            {CASE_STUDIES.map((c) => (
-              <Link key={c.slug} to={`/realizacje/${c.slug}`} className="menu-sublink" data-cursor>
-                {c.name}
               </Link>
             ))}
           </div>

@@ -13,7 +13,6 @@ import Cursor from './components/Cursor'
 import Preloader from './components/Preloader'
 import Nav from './components/Nav'
 import Home from './pages/Home'
-import CaseStudy from './pages/CaseStudy'
 import ServicePage from './pages/ServicePage'
 import Pricing from './pages/Pricing'
 import Blog from './pages/Blog'
@@ -126,7 +125,6 @@ export default function App() {
       <main id="main" tabIndex={-1}>
         <Routes>
           <Route path="/" element={<Home revealed={revealed} />} />
-          <Route path="/realizacje/:slug" element={<CaseStudy />} />
           <Route path="/cennik" element={<Pricing />} />
           <Route path="/blog" element={<Blog />} />
           <Route path="/blog/:slug" element={<BlogPost />} />

@@ -15,12 +15,12 @@ export default function Hero({ revealed }) {
 
     if (reduced) {
       gsap.set(lineInners, { yPercent: 0 })
-      gsap.set(['.hero-tagline', '.hero-scroll', '.hero-badge'], { autoAlpha: 1 })
+      gsap.set(['.hero-tagline', '.hero-badge'], { autoAlpha: 1 })
       return
     }
 
     gsap.set(lineInners, { yPercent: 110 })
-    gsap.set(['.hero-tagline', '.hero-scroll', '.hero-badge'], { autoAlpha: 0, y: 24 })
+    gsap.set(['.hero-tagline', '.hero-badge'], { autoAlpha: 0, y: 24 })
 
     // Scroll choreography: headline scales down + drifts up as the next
     // section pushes in.
@@ -54,7 +54,6 @@ export default function Hero({ revealed }) {
     })
       .to('.hero-badge', { autoAlpha: 1, y: 0, duration: 0.8, ease: 'power3.out' }, '-=1.0')
       .to('.hero-tagline', { autoAlpha: 1, y: 0, duration: 0.9, ease: 'power3.out' }, '-=0.7')
-      .to('.hero-scroll', { autoAlpha: 1, y: 0, duration: 0.9, ease: 'power3.out' }, '-=0.6')
       .call(setupKineticType)
     return () => tl.kill()
   }, [revealed])
@@ -124,10 +123,6 @@ export default function Hero({ revealed }) {
           i&nbsp;SEO, które skalują Twój biznes — mierzymy efekty,
           nie&nbsp;kliknięcia.
         </p>
-      </div>
-      <div className="hero-scroll" aria-hidden="true">
-        <span className="hero-scroll-dot"></span>
-        <span>PRZEWIŃ</span>
       </div>
     </section>
   )

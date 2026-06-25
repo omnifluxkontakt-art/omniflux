@@ -25,7 +25,7 @@ const PROCESS = [
   },
 ]
 
-const MARQUEE = 'ZROZUMIENIE — STRATEGIA — WDROŻENIE — ROZWÓJ — KRAKÓW — OMNIFLUX — '
+const MARQUEE = 'STRONY, KTÓRE SPRZEDAJĄ — MIERZYMY EFEKTY, NIE KLIKNIĘCIA — BEZ SZABLONÓW — KOD JEST TWÓJ — ODPOWIADAMY W 24 H — '
 
 export default function Studio() {
   const marqueeRef = useRef(null)

@@ -234,14 +234,30 @@ section {
   opacity: 0;
   visibility: hidden;
   transform: translateY(-16px);
-  transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out),
-    visibility 0.8s;
+  transition: opacity 0.6s var(--ease-out), transform 0.45s var(--ease-out),
+    visibility 0.6s, background 0.4s, backdrop-filter 0.4s, padding 0.35s;
 }
 
 .nav.is-visible {
   opacity: 1;
   visibility: visible;
   transform: none;
+}
+
+/* Once scrolled, give the bar a blurred backdrop so it never sits on top of
+   text unseparated. */
+.nav--scrolled {
+  background: rgba(10, 10, 10, 0.72);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  padding-top: 1.05rem;
+  padding-bottom: 1.05rem;
+}
+
+/* Hide on scroll down, reveal on scroll up. */
+.nav.is-visible.nav--hidden {
+  transform: translateY(-110%);
 }
 
 .nav a,
@@ -352,8 +368,10 @@ section {
 .line-mask {
   display: block;
   overflow: hidden;
-  padding-bottom: 0.06em;
-  margin-bottom: -0.06em;
+  /* Room for descenders (ą, ę, j) — especially the italic serif line, which
+     was getting its tail clipped by the mask. */
+  padding-bottom: 0.24em;
+  margin-bottom: -0.16em;
 }
 
 .line-inner {
@@ -402,8 +420,8 @@ section {
 /* ---------- Manifesto ---------- */
 
 .manifesto {
-  padding-top: 22vh;
-  padding-bottom: 26vh;
+  padding-top: 12vh;
+  padding-bottom: 22vh;
   max-width: 70rem;
 }
 

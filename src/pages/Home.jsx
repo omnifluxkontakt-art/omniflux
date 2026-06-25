@@ -4,8 +4,6 @@ import { getLenis, ScrollTrigger } from '../lib/motion'
 import { setMeta } from '../lib/seo'
 import Hero from '../sections/Hero'
 import Manifesto from '../sections/Manifesto'
-import Work from '../sections/Work'
-import Testimonials from '../components/Testimonials'
 import Services from '../sections/Services'
 import Studio from '../sections/Studio'
 import Faq from '../components/Faq'
@@ -41,8 +39,6 @@ export default function Home({ revealed }) {
     <>
       <Hero revealed={revealed} />
       <Manifesto />
-      <Work />
-      <Testimonials />
       <Services />
       <Studio />
       <Faq />
