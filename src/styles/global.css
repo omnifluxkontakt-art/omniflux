@@ -88,6 +88,14 @@ section {
   inset: 0;
   z-index: 9000;
   pointer-events: none;
+  /* Hidden until the first real pointer move, so the dot+ring don't sit
+     parked in the top-left corner (0,0) on load. */
+  opacity: 0;
+  transition: opacity 0.25s var(--ease-out);
+}
+
+.cursor-layer.is-ready {
+  opacity: 1;
 }
 
 .cursor-dot {

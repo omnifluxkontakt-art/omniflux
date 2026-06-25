@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react'
 import { gsap, isTouch, prefersReducedMotion } from '../lib/motion'
 
 export default function Cursor() {
+  const layerRef = useRef(null)
   const dotRef = useRef(null)
   const ringRef = useRef(null)
   const labelRef = useRef(null)
@@ -9,6 +10,7 @@ export default function Cursor() {
   useEffect(() => {
     if (isTouch()) return
     const reduced = prefersReducedMotion()
+    const layer = layerRef.current
     const dot = dotRef.current
     const ring = ringRef.current
 
@@ -18,12 +20,18 @@ export default function Cursor() {
     const ringY = gsap.quickTo(ring, 'y', { duration: 0.55, ease: 'power3.out' })
 
     const onMove = (e) => {
+      layer.classList.add('is-ready')
       dotX(e.clientX)
       dotY(e.clientY)
       ringX(e.clientX)
       ringY(e.clientY)
     }
     window.addEventListener('pointermove', onMove, { passive: true })
+
+    // Fade the cursor out when the pointer leaves the window so it doesn't
+    // stick at an edge; it returns on the next move.
+    const onLeave = () => layer.classList.remove('is-ready')
+    document.addEventListener('mouseleave', onLeave)
 
     // Hover states: any [data-cursor] ancestor sets the mode.
     const onOver = (e) => {
@@ -76,6 +84,7 @@ export default function Cursor() {
     return () => {
       window.removeEventListener('pointermove', onMove)
       window.removeEventListener('pointerover', onOver)
+      document.removeEventListener('mouseleave', onLeave)
       mo.disconnect()
       magnets.forEach(({ el, move, leave }) => {
         el.removeEventListener('pointermove', move)
@@ -87,7 +96,7 @@ export default function Cursor() {
   }, [])
 
   return (
-    <div className="cursor-layer" aria-hidden="true">
+    <div ref={layerRef} className="cursor-layer" aria-hidden="true">
       <div ref={ringRef} className="cursor-ring">
         <span ref={labelRef} className="cursor-label"></span>
       </div>
