@@ -495,7 +495,9 @@ section {
 
 .work-card-media {
   position: relative;
-  aspect-ratio: 16 / 10;
+  /* 16:9 frame, image anchored to the top — trims the light strip at the
+     bottom of screenshots without cropping the sides (logo stays intact). */
+  aspect-ratio: 16 / 9;
   overflow: hidden;
   border-radius: 14px;
   background: #0f1113;
